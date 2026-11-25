@@ -1,58 +1,62 @@
 "use client";
 
-import { useRef, useEffect, ReactNode } from "react";
-import { useInView, useMotionValue, useSpring, type SpringType } from "motion/react";
+import type { ElementType, ReactNode } from "react";
+import { motion, useReducedMotion } from "motion/react";
+
+/**
+ * Scroll-reveal wrapper that can render as any common HTML element.
+ * Falls back to a plain `div` for unknown tags. Respects reduced motion.
+ */
+const MOTION = {
+  div: motion.div,
+  span: motion.span,
+  p: motion.p,
+  h1: motion.h1,
+  h2: motion.h2,
+  h3: motion.h3,
+  section: motion.section,
+  article: motion.article,
+  blockquote: motion.blockquote,
+  ul: motion.ul,
+  li: motion.li,
+  figure: motion.figure,
+  form: motion.form,
+  label: motion.label,
+  input: motion.input,
+  select: motion.select,
+  textarea: motion.textarea,
+  button: motion.button,
+  a: motion.a,
+} as const;
+
+type TagName = keyof typeof MOTION;
 
 export default function Reveal({
-  as: Tag = "p",
+  as = "div",
   children,
   className,
   initialDelay = 0,
-  ...props
+  ...rest
 }: {
-  as?: React.ComponentType<{ className?: string }>;
-  children: ReactNode;
+  as?: TagName;
+  children?: ReactNode;
   className?: string;
   initialDelay?: number;
   [key: string]: unknown;
 }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const delay = useRef(0);
-  useEffect(() => {
-    if (delay.current === 0) delay.current = initialDelay;
-  }, [initialDelay]);
-  const motionValue = useMotionValue(0);
-  const smoothed = useSpring(motionValue, {
-    mass: 0.5,
-    stiffness: 100,
-    damping: 30,
-  });
-  useEffect(() => {
-    if (isInView) {
-      const element = ref.current;
-      if (!element) return;
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            motionValue.set(element.getBoundingClientRect().top);
-            observer.disconnect();
-          }
-        },
-        { threshold: 0.1 },
-      );
-      observer.observe(element);
-      return () => observer.disconnect();
-    }
-  }, [isInView, motionValue]);
+  const reduce = useReducedMotion();
+  const Component = (MOTION[as] ?? motion.div) as ElementType;
+
   return (
-    <Tag
-      ref={ref}
+    <Component
       className={className}
-      style={{ transform: `translate3d(0, ${smoothed}px, 0)` }}
-      {...props}
+      initial={reduce ? undefined : { opacity: 0, y: 24 }}
+      whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: initialDelay }}
+      {...rest}
     >
       {children}
-    </Tag>
+    </Component>
   );
 }
