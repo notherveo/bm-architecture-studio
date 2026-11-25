@@ -1,0 +1,219 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --radius: 0.625rem;
+  --background: #faf8f5;
+  --foreground: #1a1612;
+  --card: #faf8f5;
+  --card-foreground: #1a1612;
+  --popover: #faf8f5;
+  --popover-foreground: #1a1612;
+  --primary: #24201d;
+  --primary-foreground: #f5f4f1;
+  --secondary: #e3e1de;
+  --secondary-foreground: #1a1612;
+  --muted: #ebe8e5;
+  --muted-foreground: #6e6964;
+  --accent: #e7e5e1;
+  --accent-foreground: #1a1612;
+  --destructive: #dc2626;
+  --destructive-foreground: #fafafa;
+  --border: #d6d3d0;
+  --input: #d1cecc;
+  --ring: #3d3835;
+}
+
+.dark {
+  --background: #14110f;
+  --foreground: #ecebeb;
+  --card: #13100e;
+  --card-foreground: #ecebeb;
+  --popover: #13100e;
+  --popover-foreground: #ecebeb;
+  --primary: #ecebeb;
+  --primary-foreground: #14110f;
+  --secondary: #2a2826;
+  --secondary-foreground: #ecebeb;
+  --muted: #23211f;
+  --muted-foreground: #a09e9c;
+  --accent: #2c2a28;
+  --accent-foreground: #ecebeb;
+  --destructive: #dc2626;
+  --destructive-foreground: #fafafa;
+  --border: #353331;
+  --input: #3e3c3a;
+  --ring: #ecebeb;
+}
+
+@theme inline {
+  --font-geist: var(--font-geist);
+  --font-geist-mono: var(--font-geist-mono);
+  --font-dm-sans: var(--font-dm-sans);
+  --font-playfair: var(--font-playfair);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground font-[var(--font-dm-sans)];
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-[var(--font-playfair)] font-medium tracking-tight;
+  }
+  p {
+    @apply leading-relaxed;
+  }
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+}
+
+@layer utilities {
+  .clip-path-hero {
+    clip-path: polygon(0 0, 100% 0, 100% 92%, 50% 100%, 0 92%);
+  }
+  .clip-path-hero-reverse {
+    clip-path: polygon(0 8%, 100% 0, 100% 100%, 0 100%);
+  }
+}
+
+/* Scroll animations */
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes reveal-scale {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes reveal-words {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes reveal-numbers {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes reveal-lines {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-reveal-up {
+  animation: reveal-up 1.2s ease-out forwards;
+}
+
+.animate-reveal-scale {
+  animation: reveal-scale 1.2s ease-out forwards;
+}
+
+.animate-reveal-words {
+  animation: reveal-words 1.2s ease-out forwards;
+}
+
+.animate-reveal-numbers {
+  animation: reveal-numbers 1.2s ease-out forwards;
+}
+
+.animate-reveal-lines {
+  animation: reveal-lines 1.2s ease-out forwards;
+}
+
+/* Project detail reveal */
+@keyframes project-reveal {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-project-reveal {
+  animation: project-reveal 1.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Image reveal */
+@keyframes image-reveal {
+  from {
+    opacity: 0;
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+.animate-image-reveal {
+  animation: image-reveal 1.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
