@@ -1,11 +1,12 @@
 "use client";
 
+import Link from "next/link";
 import type { ElementType, ReactNode } from "react";
 import { motion, useReducedMotion } from "motion/react";
 
 /**
- * Scroll-reveal wrapper that can render as any common HTML element.
- * Falls back to a plain `div` for unknown tags. Respects reduced motion.
+ * Scroll-reveal wrapper that can render as any common HTML element (or Next's
+ * `Link`). Falls back to a plain `div` for unknown tags. Respects reduced motion.
  */
 const MOTION = {
   div: motion.div,
@@ -27,6 +28,7 @@ const MOTION = {
   textarea: motion.textarea,
   button: motion.button,
   a: motion.a,
+  Link: motion.create(Link),
 } as const;
 
 type TagName = keyof typeof MOTION;
