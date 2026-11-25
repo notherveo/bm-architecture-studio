@@ -1,4 +1,5 @@
 "use client";
+import * as React from "react";
 
 import { useScroll, useTransform } from "motion/react";
 import { type CSSProperties, type ReactNode } from "react";
