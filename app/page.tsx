@@ -94,6 +94,17 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Editorial full-bleed image */ }
+      <section className="relative h-[60vh] md:h-[80vh] w-full overflow-hidden">
+        <ParallaxImage
+          src="https://picsum.photos/seed/meridian-editorial/2400/1500"
+          alt="A vast, light-filled interior with polished concrete floors"
+          loading="lazy"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
+      </section>
+
       {/* Featured projects */ }
       <section className="py-24 md:py-36 px-6 sm:px-8 lg:px-12 max-w-7xl mx-auto">
         <Reveal as="div" className="flex items-end justify-between mb-16">

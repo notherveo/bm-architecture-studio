@@ -9,13 +9,13 @@ export default function ParallaxImage({
   alt,
   className,
   style,
-  children,
+  loading,
 }: {
   src: string;
   alt: string;
   className?: string;
   style?: CSSProperties;
-  children?: ReactNode;
+  loading?: "lazy" | "eager";
 }) {
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 1000], [0, 30]);
@@ -23,6 +23,7 @@ export default function ParallaxImage({
     <img
       src={src}
       alt={alt}
+      loading={loading}
       className={className}
       style={{
         ...style,
